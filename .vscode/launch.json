@@ -1,0 +1,130 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Make: compile and debug",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/.vscode/bash",
+			"args": [
+				"${workspaceFolder}/.vscode/run.sh",
+			],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}/${config:c_project.dir}",
+			"externalConsole": false,
+			"linux": {
+				"MIMode": "gdb",
+				"internalConsoleOptions": "neverOpen",				// don't show the debugger console
+				"environment": [
+					{"name":"CODE_DEBUG", "value":"./${config:c_project.program} ${config:c_project.args}"},
+				],
+				"setupCommands": [
+					{
+						"description": "Enable pretty-printing for gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					},
+				]
+			},
+			"osx": {
+				"MIMode": "lldb",									// on macOS gdb is hard to setup
+				"internalConsoleOptions": "openOnSessionStart",		// open the debugger console, lldb sends output only there
+				"environment": [
+					{"name":"CODE_DEBUG", "value":"./${config:c_project.program} ${config:c_project.args}"},
+				],
+				"setupCommands": [
+					{
+						"description": "Don't stop on exec",		// lldb stops execution on "exec", we need to continue since we run via bash
+						"text": "settings set target.process.stop-on-exec false",
+						"ignoreFailures": false
+					}
+				],
+			},
+			"preLaunchTask": "debug-make",
+		},
+		{
+			"name": "Single file: compile and debug",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/.vscode/bash",
+			"args": [
+				"${workspaceFolder}/.vscode/run.sh",
+			],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"externalConsole": false,
+			"linux": {
+				"MIMode": "gdb",
+				"internalConsoleOptions": "neverOpen",				// don't show the debugger console
+				"environment": [
+					{"name":"CODE_DEBUG", "value":"./${fileBasenameNoExtension} ${config:c_project.args}"},
+				],
+				"setupCommands": [
+					{
+						"description": "Enable pretty-printing for gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					},
+				]
+			},
+			"osx": {
+				"MIMode": "lldb",									// on macOS gdb is hard to setup
+				"internalConsoleOptions": "openOnSessionStart",		// open the debugger console, lldb sends output only there
+				"environment": [
+					{"name":"CODE_DEBUG", "value":"./${fileBasenameNoExtension} ${config:c_project.args}"},
+				],
+				"setupCommands": [
+					{
+						"description": "Don't stop on exec",		// lldb stops execution on "exec", we need to continue since we run via bash
+						"text": "settings set target.process.stop-on-exec false",
+						"ignoreFailures": false
+					}
+				],
+			},
+			"preLaunchTask": "debug-single-file"
+		},
+		{
+			"name": "All files in directory: compile and debug",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/.vscode/bash",
+			"args": [
+				"${workspaceFolder}/.vscode/run.sh",
+			],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"externalConsole": false,
+			"linux": {
+				"MIMode": "gdb",
+				"internalConsoleOptions": "neverOpen",				// don't show the debugger console
+				"environment": [
+					{"name":"CODE_DEBUG", "value":"./${config:c_project.program} ${config:c_project.args}"},
+				],
+				"setupCommands": [
+					{
+						"description": "Enable pretty-printing for gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					},
+				]
+			},
+			"osx": {
+				"MIMode": "lldb",									// on macOS gdb is hard to setup
+				"internalConsoleOptions": "openOnSessionStart",		// open the debugger console, lldb sends output only there
+				"environment": [
+					{"name":"CODE_DEBUG", "value":"./${config:c_project.program} ${config:c_project.args}"},
+				],
+				"setupCommands": [
+					{
+						"description": "Don't stop on exec",		// lldb stops execution on "exec", we need to continue since we run via bash
+						"text": "settings set target.process.stop-on-exec false",
+						"ignoreFailures": false
+					}
+				],
+			},
+			"preLaunchTask": "debug-all-files"
+		},
+	]
+}
